@@ -1,4 +1,3 @@
-
 import java.util.NoSuchElementException;
 
 class Node {
@@ -9,83 +8,90 @@ class Node {
         this.next = next;
     }
 }
+
 class LinkedList {
     Node root;
+
     public LinkedList() {
         this.root = null;
     }
+
     /**
      * Adds the value to the _beginning_ of the list
-     * @param value
+     * @param value the value to add
      */
     public void prepend(int value) {
         // Just add at the beginning
         this.root = new Node(value, this.root);
     }
+
     /**
      * Adds the value to the _end_ of the list
-     * @param value
+     * @param value the value to add
      */
     public void append(int value) {
-        if(this.root == null) {
+        if (this.root == null) {
             this.root = new Node(value, null);
             return;
         }
-        // If it's just one element, add if after that one
         Node n = this.root;
-        if(n.next == null) {
-            n.next = new Node(value, null);
-            return;
-        }
-        // Otherwise, loop until the end and add at the end with a null
-        while(n.next != null) {
+        while (n.next != null) {
             n = n.next;
-            n.next = new Node(value, null);
         }
+        n.next = new Node(value, null); // Correctly append at the end
     }
+
     /**
-     * @return the value of the first element in the list
+     * Returns the value of the first element in the list
+     * @return the value of the first node
      */
     public int first() {
+        if (this.root == null) {
+            throw new NoSuchElementException("The list is empty.");
+        }
         return this.root.value;
     }
+
     /**
-     * @return the value of the last element in the list
+     * Returns the value of the last element in the list
+     * @return the value of the last node
      */
     public int last() {
+        if (this.root == null) {
+            throw new NoSuchElementException("The list is empty.");
+        }
         Node n = this.root;
-        // If no such element, throw an exception
-        if(n == null) { throw new NoSuchElementException(); }
-        // If it's just one element, return its value
-        if(n.next == null) { return n.value; }
-        // Otherwise, search for the end of the list and return the last value
-        while(n.next != null) {
+        while (n.next != null) {
             n = n.next;
         }
         return n.value;
     }
+
     /**
-     * @return a string representation of the list
+     * Returns a string representation of the list
+     * @return string representing the list values
      */
     public String toString() {
+        StringBuilder sb = new StringBuilder();
         Node n = this.root;
-        String s = "";
-        while(n != null) {
-            s += n.value + " ";
+        while (n != null) {
+            sb.append(n.value).append(" ");
             n = n.next;
         }
-        return s;
+        return sb.toString().trim(); // Remove the trailing space
     }
+
     /**
-     * @return the number of elements in the list
+     * Returns the number of elements in the list
+     * @return the length of the list
      */
     public int length() {
+        int length = 0;
         Node n = this.root;
-        int i = 0;
-        while(n != null) {
-            i += 1;
+        while (n != null) {
+            length++;
             n = n.next;
         }
-        return i;
+        return length;
     }
 }
